@@ -1,7 +1,6 @@
 <template>
-  <div>首页
-    
-  </div>
+  <!-- 存放酒店模块 -->
+  <div></div>
 </template>
 
 <script>

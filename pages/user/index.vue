@@ -1,7 +1,6 @@
 <template>
-  <div>首页
-    
-  </div>
+  <!-- 用户登录注册页面 -->
+  <div></div>
 </template>
 
 <script>
