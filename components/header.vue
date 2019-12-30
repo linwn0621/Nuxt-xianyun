@@ -59,7 +59,7 @@ export default {
     methods: {
         // 用户退出
         handleLogout(){
-            console.log(this.$axios.defaults.baseURL+this.$store.state.user.userInfo.user.defaultAvatar)
+           this.$store.commit('user/setname', {})
            
         },
     }

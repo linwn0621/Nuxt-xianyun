@@ -13,5 +13,18 @@ setname(state,data){
 // 异步修改state数据
 export const actions={
 
+login(store,data){
+    return this.$axios({
+        url: "/accounts/login",
+        method: "POST",
+        data
+      }).then(res => {
+        // console.log(res.data);
+        this.$router.back()
+        store.commit('setname', res.data)
+        return true
+      })
+}
+
 };
 

@@ -41,13 +41,14 @@ export default {
       // 验证组件设置的输入规则
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.$axios({
-            url: "/accounts/login",
-            method: "POST",
-            data: this.form
-          }).then(res => {
-            console.log(res.data);
-            this.$store.commit('user/setname', res.data)
+          this.$store.dispatch("user/login", this.form).then(res => {
+            // 成功提示
+            if (res===true) {
+              this.$message({
+                message: "登录成功，正在跳转",
+                type: "success"
+              });
+            }
           });
           //  console.log(this.form);
         }
