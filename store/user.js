@@ -19,11 +19,29 @@ login(store,data){
         method: "POST",
         data
       }).then(res => {
-        // console.log(res.data);
+        console.log(111,res);
         this.$router.back()
         store.commit('setname', res.data)
         return true
+      }).catch(res => {
+        console.log(222,res);
+        return false
       })
+},
+
+register(store,data){
+  return this.$axios({
+    url: `/accounts/register`,
+    method: "POST",
+    data
+  }).then(res => {
+    console.log(11, res);
+    this.$router.back()
+    store.commit('setname', res.data)
+    return true
+  }).catch(res => {
+    return false
+  });
 }
 
 };

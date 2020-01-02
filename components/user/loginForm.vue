@@ -43,12 +43,12 @@ export default {
         if (valid) {
           this.$store.dispatch("user/login", this.form).then(res => {
             // 成功提示
-            if (res===true) {
+            if (res === true) {
               this.$message({
                 message: "登录成功，正在跳转",
                 type: "success"
               });
-            }
+            } 
           });
           //  console.log(this.form);
         }
