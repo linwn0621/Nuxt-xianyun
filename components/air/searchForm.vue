@@ -15,7 +15,7 @@
     </el-row>
 
     <el-form class="search-form-content" ref="form" :model="form" label-width="80px">
-      <el-form-item label="出发城市">
+      <el-form-item label="出发城市" prop="departCity">
         <!-- fetch-suggestions 返回输入建议的方法 -->
         <!-- select 点击选中建议项时触发 -->
         <el-autocomplete
@@ -27,7 +27,7 @@
           class="el-autocomplete"
         ></el-autocomplete>
       </el-form-item>
-      <el-form-item label="到达城市">
+      <el-form-item label="到达城市" prop="destCity">
         <el-autocomplete
           v-model="form.destCity"
           :fetch-suggestions="queryDestSearch"
@@ -37,7 +37,7 @@
           class="el-autocomplete"
         ></el-autocomplete>
       </el-form-item>
-      <el-form-item label="出发时间">
+      <el-form-item label="出发时间" prop="departDate">
         <!-- change 用户确认选择日期时触发 -->
         <el-date-picker
           type="date"
@@ -89,14 +89,13 @@ export default {
     // tab切换时触发
     handleSearchTab(item, index) {
       // this.currentTab = index;
-       if(index === 1){
-        this.$confirm("目前暂不支持往返，请使用单程选票！", '提示', {
-            confirmButtonText: '确定',
-            showCancelButton: false,
-            type: 'warning'
-        })
-        
-    }
+      if (index === 1) {
+        this.$confirm("目前暂不支持往返，请使用单程选票！", "提示", {
+          confirmButtonText: "确定",
+          showCancelButton: false,
+          type: "warning"
+        });
+      }
     },
     // 输入出发城市失去焦点时默认选中第一项建议
     handleblurDepart() {
@@ -114,11 +113,13 @@ export default {
     // 出发城市输入框获得焦点时触发
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDepartSearch(value, cb) {
+      
       // 如果输入为空不弹出建议框
       if (value.trim() === "") {
         cb([]);
         return;
       } else {
+        console.log(value, cb)
         this.$axios({
           url: "/airs/city",
           params: {
@@ -130,9 +131,10 @@ export default {
           this.depart = data.map(item => {
             item.value = item.name.replace("市", "");
             return item;
+             
           });
-          console.log(data);
-          cb(data);
+         console.log(this.depart);
+          cb(this.depart);
         });
       }
     },
@@ -167,13 +169,13 @@ export default {
     // 出发城市下拉选择时触发
     handleDepartSelect(item) {
       console.log(item);
-      this.form.departCity = item.name;
+   
       this.form.departCode = item.sort;
     },
 
     // 目标城市下拉选择时触发
     handleDestSelect(item) {
-      this.form.destCity = item.name;
+     
       this.form.destCode = item.sort;
     },
 
@@ -183,16 +185,57 @@ export default {
     },
 
     // 触发和目标城市切换时触发
-    handleReverse() {},
+    handleReverse() {
+// 取出数据
+  const { departCity, departCode, destCity, destCode} = this.form;
+
+                this.form.departCity = destCity;
+                this.form.departCode = destCode;
+                this.form.destCity = departCity;
+                this.form.destCode = departCode;
+    },
 
     // 提交表单是触发
     handleSubmit() {
-      console.log(this.form);
-      // 跳转到机票页
-      this.$router.push({
-        path: "/air/flights",
-        query: this.form
+      // console.log(this.form);
+      // 表单验证
+      const rules = {
+        depart: {
+          value: this.form.departCity,
+          message: "请选择出发城市"
+        },
+        dest: {
+          value: this.form.destCity,
+          message: "请选择到达城市"
+        },
+        departDate: {
+          value: this.form.departDate,
+          message: "请选择出发时间"
+        }
+      };
+      console.log(Object.keys(rules));
+      let valid = true;
+      Object.keys(rules).forEach(v => {
+        console.log(v);
+        if (!rules[v].value) {
+          valid = false;
+          this.$confirm(rules[v].message, "提示", {
+            confirmButtonText: "确定",
+            showCancelButton: false,
+            type: "warning"
+          });
+        }
+   
       });
+           if(!valid){
+return
+        }
+      // 跳转到机票页
+      // this.$router.push({
+      //   path: "/air/flights",
+      //   query: this.form
+      // });
+      console.log(11,this.form)
     }
   },
   mounted() {}
