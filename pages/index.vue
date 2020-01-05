@@ -81,9 +81,17 @@ export default {
     this.banners = data;
   },
   methods: {
-        handleOption(index){},
+        handleOption(index){
+           this.currentOption=index
+            // 如果切换的机票tab，那么直接跳转到机票首页
+            if(this.options[index].name==="机票"){
+                // console.log(this.options[index].pageUrl=="/air")
+                this.$router.push("/air")
+            }
+        },
         handleSearch(){
-        
+        // 搜索时将输入框内的值通过url传递跳转
+        this.$router.push(this.options[this.currentOption].pageUrl+this.searchValue)
           console.log()
          
         }
