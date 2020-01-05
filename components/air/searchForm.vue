@@ -119,7 +119,7 @@ export default {
         cb([]);
         return;
       } else {
-        console.log(value, cb)
+        // console.log(value, cb)
         this.$axios({
           url: "/airs/city",
           params: {
@@ -133,7 +133,7 @@ export default {
             return item;
              
           });
-         console.log(this.depart);
+        //  console.log(this.depart);
           cb(this.depart);
         });
       }
@@ -231,10 +231,10 @@ export default {
 return
         }
       // 跳转到机票页
-      // this.$router.push({
-      //   path: "/air/flights",
-      //   query: this.form
-      // });
+      this.$router.push({
+        path: "/air/flights",
+        query: this.form
+      });
       console.log(11,this.form)
     }
   },
