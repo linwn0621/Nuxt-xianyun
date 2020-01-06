@@ -133,8 +133,9 @@ export default {
             return item;
              
           });
-        //  console.log(this.depart);
-          cb(this.depart);
+         console.log(1,this.depart);
+         console.log(2,data);
+          cb(data);
         });
       }
     },
@@ -160,8 +161,8 @@ export default {
             item.value = item.name.replace("市", "");
             return item;
           });
-          console.log(data);
-          cb(data);
+          // console.log( this.dest);
+          cb( this.dest);
         });
       }
     },
