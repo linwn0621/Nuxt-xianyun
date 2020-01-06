@@ -113,7 +113,6 @@ export default {
     // 出发城市输入框获得焦点时触发
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDepartSearch(value, cb) {
-      
       // 如果输入为空不弹出建议框
       if (value.trim() === "") {
         cb([]);
@@ -131,11 +130,10 @@ export default {
           this.depart = data.map(item => {
             item.value = item.name.replace("市", "");
             return item;
-             
           });
-         console.log(1,this.depart);
-         console.log(2,data);
-          cb(data);
+          // console.log(1, this.depart);
+          // console.log(2, data);
+           cb( this.depart);
         });
       }
     },
@@ -162,21 +160,19 @@ export default {
             return item;
           });
           // console.log( this.dest);
-          cb( this.dest);
+          cb(this.dest);
         });
       }
     },
 
     // 出发城市下拉选择时触发
     handleDepartSelect(item) {
-      console.log(item);
-   
+      // console.log(item);
       this.form.departCode = item.sort;
     },
 
     // 目标城市下拉选择时触发
     handleDestSelect(item) {
-     
       this.form.destCode = item.sort;
     },
 
@@ -187,18 +183,17 @@ export default {
 
     // 触发和目标城市切换时触发
     handleReverse() {
-// 取出数据
-  const { departCity, departCode, destCity, destCode} = this.form;
+      // 取出数据
+      const { departCity, departCode, destCity, destCode } = this.form;
 
-                this.form.departCity = destCity;
-                this.form.departCode = destCode;
-                this.form.destCity = departCity;
-                this.form.destCode = departCode;
+      this.form.departCity = destCity;
+      this.form.departCode = destCode;
+      this.form.destCity = departCity;
+      this.form.destCode = departCode;
     },
 
     // 提交表单是触发
     handleSubmit() {
-      // console.log(this.form);
       // 表单验证
       const rules = {
         depart: {
@@ -226,17 +221,18 @@ export default {
             type: "warning"
           });
         }
-   
       });
-           if(!valid){
-return
-        }
+      if (!valid) {
+        return;
+      }
       // 跳转到机票页
       this.$router.push({
         path: "/air/flights",
         query: this.form
       });
-      console.log(11,this.form)
+      // console.log(11, this.form);
+      // 保存到store
+      this.$store.commit("air/setHistory",this.form)
     }
   },
   mounted() {}

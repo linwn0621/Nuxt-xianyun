@@ -147,6 +147,11 @@ export default {
   },
   mounted() {
     this.getairdata();
+  },
+  watch: {
+    $route(){
+        this.getairdata();
+    }
   }
 };
 </script>
