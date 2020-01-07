@@ -110,39 +110,47 @@ export default {
     },
     // 选中的保险id
     handleInsurance(id) {
-     
       // 判断是否已经有id
-    if(this.insurances.indexOf(id)!==-1){
- this.insurances.splice(this.insurances.indexOf(id),1);
-    }else{
-      this.insurances.push(id)
-    }
+      if (this.insurances.indexOf(id) !== -1) {
+        this.insurances.splice(this.insurances.indexOf(id), 1);
+      } else {
+        this.insurances.push(id);
+      }
     },
     // 发送手机验证码
     handleSendCaptcha() {
-// 判断手机号是否为空
-if(!this.contactPhone){
-   this.$alert("手机号不能为空", "提示", {
+      // 判断手机号是否为空
+      if (!this.contactPhone) {
+        this.$alert("手机号不能为空", "提示", {
           confirmButtonText: "确定",
           type: "warning"
         });
         return;
-}
-// 判断手机号是否为11位
-if(this.contactPhone.length<11){
-      this.$confirm('手机号码格式错误', '提示', {
-            confirmButtonText: '确定',
-            showCancelButton: false,
-            type: 'warning'
-        })
+      }
+      // 判断手机号是否为11位
+      if (this.contactPhone.length < 11) {
+        this.$confirm("手机号码格式错误", "提示", {
+          confirmButtonText: "确定",
+          showCancelButton: false,
+          type: "warning"
+        });
         return;
-}
-// 调用接口获取验证码
+      }
+      // 调用接口获取验证码
+      this.$axios({
+        url: "/captchas",
+        method: "POST",
+        data: {
+          tel: this.contactPhone
+        }
+      }).then(res => {
+        console.log(res);
+      });
     },
 
     // 提交订单
     handleSubmit() {
-      console.log( this.contactPhone.length)
+      console.log(this.contactPhone.length);
     }
   }
 };
