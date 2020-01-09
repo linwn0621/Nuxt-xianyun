@@ -1,8 +1,8 @@
-export const state={
-    userInfo:{
+export const state=()=>({
+  userInfo:{
 
-    }
-};
+  }
+})
 // 同步修改state
 export const mutations={
 setname(state,data){
@@ -12,7 +12,7 @@ setname(state,data){
 };
 // 异步修改state数据
 export const actions={
-
+// 登录
 login(store,data){
     return this.$axios({
         url: "/accounts/login",
@@ -28,7 +28,7 @@ login(store,data){
         return false
       })
 },
-
+// 注册
 register(store,data){
   return this.$axios({
     url: `/accounts/register`,
