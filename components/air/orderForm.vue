@@ -5,7 +5,7 @@
       <el-form class="member-info">
         <div class="member-info-item" v-for="(item,index) in users" :key="index">
           <el-form-item label="乘机人类型">
-            <el-input placeholder="姓名" class="input-with-select" v-model="item.name">
+            <el-input placeholder="姓名" class="input-with-select" v-model="item.username">
               <el-select slot="prepend" value="1" placeholder="请选择">
                 <el-option label="成人" value="1"></el-option>
               </el-select>
@@ -13,7 +13,7 @@
           </el-form-item>
 
           <el-form-item label="证件类型">
-            <el-input placeholder="证件号码" class="input-with-select" v-model="item.num">
+            <el-input placeholder="证件号码" class="input-with-select" v-model="item.id">
               <el-select slot="prepend" value="1" placeholder="请选择">
                 <el-option label="身份证" value="1" :checked="true"></el-option>
               </el-select>
@@ -150,7 +150,47 @@ export default {
 
     // 提交订单
     handleSubmit() {
-      console.log(this.contactPhone.length);
+      console.log(this.$store.state.user.userInfo.token);
+      // 接收订单数据
+      const orderData = {
+        // 用户数据
+        users: this.users,
+        insurances: this.insurances,
+        contactName: this.contactName,
+        contactPhone: this.contactPhone,
+        invoice: this.invoice,
+        captcha: this.captcha,
+        seat_xid: this.data.seat_infos.seat_xid,
+        air: this.data.id
+      };
+      // 提示
+       this.$message({
+        message: "正在生成订单！请稍等",
+        type: "success"
+    })
+      // 提交请求
+      this.$axios({
+        url: `/airorders`,
+        method: "POST",
+        data: orderData,
+        headers: {
+          Authorization: "Bearer "+this.$store.state.user.userInfo.token
+        }
+      }).then(res => {
+        console.log(res);
+        // 跳转支付页
+        this.$router.push({
+          path: "/air/pay"
+        })
+      }).catch(err=>{
+           const {message} = err.response.data;
+        // 警告提示
+        this.$confirm(message, '提示', {
+            confirmButtonText: '确定',
+            showCancelButton: false,
+            type: 'warning'
+        })
+      })
     }
   }
 };
