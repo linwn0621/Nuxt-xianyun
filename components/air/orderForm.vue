@@ -63,6 +63,7 @@
         <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
       </div>
     </div>
+    <span>{{allprice}}</span>
   </div>
 </template>
 
@@ -94,6 +95,24 @@ export default {
         return {};
       }
     }
+  },
+  // 计算机票总金额
+  computed: {
+allprice(){
+  let airmoney=0;
+  // 机票金额
+  airmoney=this.data.seat_infos.org_settle_price ;
+  // 燃油费
+  airmoney+=this.data.airport_tax_audlet;
+  // 保险
+   airmoney+=this.insurances.length*30;
+  // 总
+  airmoney*=this.users.length
+  // 传递到store
+  this.$store.commit("air/setmoney",airmoney)
+  return airmoney
+}
+
   },
   methods: {
     // 添加乘机人
@@ -150,7 +169,7 @@ export default {
 
     // 提交订单
     handleSubmit() {
-      console.log(this.$store.state.user.userInfo.token);
+      console.log(this.data);
       // 接收订单数据
       const orderData = {
         // 用户数据
@@ -164,33 +183,35 @@ export default {
         air: this.data.id
       };
       // 提示
-       this.$message({
+      this.$message({
         message: "正在生成订单！请稍等",
         type: "success"
-    })
+      });
       // 提交请求
       this.$axios({
         url: `/airorders`,
         method: "POST",
         data: orderData,
         headers: {
-          Authorization: "Bearer "+this.$store.state.user.userInfo.token
+          Authorization: "Bearer " + this.$store.state.user.userInfo.token
         }
-      }).then(res => {
-        console.log(res);
-        // 跳转支付页
-        this.$router.push({
-          path: "/air/pay"
-        })
-      }).catch(err=>{
-           const {message} = err.response.data;
-        // 警告提示
-        this.$confirm(message, '提示', {
-            confirmButtonText: '确定',
-            showCancelButton: false,
-            type: 'warning'
-        })
       })
+        .then(res => {
+          console.log(res);
+          // 跳转支付页
+          this.$router.push({
+            path: "/air/pay"
+          });
+        })
+        .catch(err => {
+          const { message } = err.response.data;
+          // 警告提示
+          this.$confirm(message, "提示", {
+            confirmButtonText: "确定",
+            showCancelButton: false,
+            type: "warning"
+          });
+        });
     }
   }
 };
