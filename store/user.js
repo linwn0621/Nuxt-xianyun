@@ -14,7 +14,7 @@ setname(state,data){
 export const actions={
 // 登录
 login(store,data){
-    return this.$axios({
+    return this.$axios({               
         url: "/accounts/login",
         method: "POST",
         data

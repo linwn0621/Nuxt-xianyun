@@ -172,7 +172,7 @@ allprice(){
 
     // 提交订单
     handleSubmit() {
-      console.log(this.data);
+      console.log(this.$store.state.user.userInfo);
       // 接收订单数据
       const orderData = {
         // 用户数据
@@ -202,9 +202,13 @@ allprice(){
         .then(res => {
           console.log(res);
           // 跳转支付页
-          this.$router.push({
-            path: "/air/pay"
-          });
+   const {data: {id}} = res.data;
+        this.$router.push({
+                    path: "/air/pay",
+                    query: {
+                       id
+                    }
+                });
         })
         .catch(err => {
           const { message } = err.response.data;
