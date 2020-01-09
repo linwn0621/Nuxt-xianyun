@@ -133,7 +133,7 @@ export default {
           });
           // console.log(1, this.depart);
           // console.log(2, data);
-           cb( this.depart);
+          cb(this.depart);
         });
       }
     },
@@ -232,7 +232,7 @@ export default {
       });
       // console.log(11, this.form);
       // 保存到store
-      this.$store.commit("air/setHistory",this.form)
+      this.$store.commit("air/setHistory", this.form);
     }
   },
   mounted() {}
