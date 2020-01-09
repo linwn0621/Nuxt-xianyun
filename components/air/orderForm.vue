@@ -100,6 +100,9 @@ export default {
   computed: {
 allprice(){
   let airmoney=0;
+  if(!this.data.seat_infos.org_settle_price){
+    return
+  }
   // 机票金额
   airmoney=this.data.seat_infos.org_settle_price ;
   // 燃油费
