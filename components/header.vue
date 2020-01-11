@@ -24,7 +24,7 @@
                 <el-dropdown v-if="$store.state.user.userInfo.token" >
                     <el-row type="flex" align="middle" class="el-dropdown-link">
                         <nuxt-link to="#">
-                            <img :src="$axios.defaults.baseURL+$store.state.user.userInfo.user.defaultAvatar"/>
+                            <img  :src="$axios.defaults.baseURL+$store.state.user.userInfo.user.defaultAvatar"/>
                           {{$store.state.user.userInfo.user.nickname}}
                         </nuxt-link>
                         <i class="el-icon-caret-bottom el-icon--right"></i>
@@ -62,6 +62,10 @@ export default {
            this.$store.commit('user/setname', {})
            
         },
+    },
+    created () {
+        
+        console.log(this.$store.state.user.userInfo)
     }
 
 }
