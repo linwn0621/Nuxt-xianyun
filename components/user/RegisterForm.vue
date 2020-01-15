@@ -101,6 +101,7 @@ export default {
         data: { tel: this.form.username }
       }).then(res => {
         console.log(res);
+        
       });
     },
 

@@ -14,7 +14,8 @@
       <div v-for="(item,index) in citys.children" :key="index">
         <a href="#">
           <span class="num">{{index+1}}</span>
-          <strong>{{item.city}}</strong>
+          <nuxt-link :to="`/post?city=${item.city}`"><strong>{{item.city}}</strong></nuxt-link>
+          
           <span class="desc">{{item.desc}}</span>
         </a>
       </div>
@@ -39,7 +40,7 @@ export default {
     this.$axios({
       url: "/posts/cities"
     }).then(res => {
-      console.log(1, res);
+      // console.log("城市", res);
       this.form = res.data.data;
     });
   },
